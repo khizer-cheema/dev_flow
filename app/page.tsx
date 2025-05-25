@@ -1,9 +1,9 @@
 export default function Home() {
   return (
     <div>
-      <h1 className="m-t:6 font:bold">home page</h1>
-      <p> i am hello page</p>
-      <h4>testing changes</h4>
+      <h1 className="m-t:6 font-spaceGrotesk">spaceGrotesk</h1>
+      <p className="font-inter"> space grotesk</p>
+      <h4 className="font-inter"> font inter testing changes</h4>
     </div>
   );
 }
