@@ -11,7 +11,7 @@ import handleError from "../handlers/error";
 import { AskQuestionSchema } from "../validations";
 
 
-export async function CreateQuestion(params:CreateQuestionParams):Promise<ActionResponse> {
+export async function CreateQuestion(params:CreateQuestionParams):Promise<ActionResponse<Question>> {
 
   const validationResult = await action({
     params,
