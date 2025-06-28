@@ -1,11 +1,14 @@
 import Link from "next/link";
 
 import QuestionCard from "@/components/cards/QuestionCard";
+import DataRenderer from "@/components/DataRenderer";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
+import { EMPTY_QUESTION } from "@/constants/states";
 import { getQuestions } from "@/lib/actions/question.action";
+
 
 interface searchParams{
   searchParams: Promise<{[key:string]:string}>;
@@ -42,7 +45,24 @@ const Home = async ({ searchParams }: searchParams) => {
         />
       </section>
       <HomeFilter />
-       {
+      
+      <DataRenderer
+        success={success}
+        error={error}
+        data={questions}
+        empty={EMPTY_QUESTION}
+        render={(questions)=>(
+          <div className="mt-10 w-full flex flex-col gap-6">
+            {questions.map((question)=>(
+              <QuestionCard
+                key={question._id}
+                question={question}
+              />
+            ))}
+          </div>
+        )}
+      />
+       {/* {
           success ? (
             <div className="mt-10 flex w-full flex-col gap-6">
               {questions && questions.length >0 ? (
@@ -61,7 +81,7 @@ const Home = async ({ searchParams }: searchParams) => {
                   {error?.message || "Failed to fetch questions"}
                   </p>
               </div>
-            )}
+            )} */}
         </>
   );
 };

@@ -229,7 +229,7 @@ export async function getQuestions(params:paginatedSearchParams):Promise<ActionR
     try {
       const totalQuestions = await Question.countDocuments(filterQuery);
       const questions = await Question.find(filterQuery).populate("tags","name").populate("author","name image").lean().sort(sortCriteria).skip(skip).limit(limit);
-
+    
       const isNext = totalQuestions > skip + questions.length;   
       return { 
         success:true,
