@@ -1,10 +1,8 @@
-import Image from "next/image";
+import * as Avatar from "@radix-ui/react-avatar";
 import Link from "next/link";
 import React from "react";
 
 import ROUTES from "@/constants/routes";
-
-import { Avatar, AvatarFallback } from "./ui/avatar";
 
 interface Props {
   id: string;
@@ -13,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-const UserAvatar = ({ id, name, imageUrl, className = "h-9 w-9" }: Props) => {
+const UserAvatar = ({ id, name, imageUrl}: Props) => {
   const initials = name
     .split(" ")
     .map((word: string) => word[0])
@@ -23,22 +21,21 @@ const UserAvatar = ({ id, name, imageUrl, className = "h-9 w-9" }: Props) => {
 
   return (
     <Link href={ROUTES.PROFILE(id)}>
-      <Avatar className={className}>
-        {imageUrl ? (
-          <Image
+      <Avatar.Root>
+      <Avatar.Image className="object-cover h-11 w-11 rounded-full">
+          
             src={imageUrl}
             alt={name}
-            className="object-cover"
             width={36}
             height={36}
             quality={100}
-          />
-        ) : (
-          <AvatarFallback className="primary-gradient font-space-grotesk font-bold tracking-wider text-white">
+          
+          </Avatar.Image>
+          <Avatar.Fallback className="primary-gradient font-space-grotesk font-bold tracking-wider text-white h-31 w-31 rounded-full">
             {initials}
-          </AvatarFallback>
-        )}
-      </Avatar>
+          </Avatar.Fallback>
+      
+      </Avatar.Root>
     </Link>
   );
 };

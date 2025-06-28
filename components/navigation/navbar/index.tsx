@@ -28,13 +28,13 @@ const Navbar = async () => {
       <p>Global Search</p>
       <div className="flex-between gap-5">
         <Theme />
-        {/* {session?.user?.id && (
+        {session?.user?.id && (
             <UserAvatar
             id={session.user.id}
             name={session.user.name!}
             imageUrl = {session.user?.image}
             />
-          )} */}
+          )} 
         <MobileNavigation />
       </div>
     </nav>
