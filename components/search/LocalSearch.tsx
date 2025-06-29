@@ -11,9 +11,10 @@ interface Props {
   ImgSrc: string;
   placeholder: string;
   otherClasses?: string;
+  iconPosition?:"left" | "right"
 }
 
-const LocalSearch = ({ route, ImgSrc, placeholder, otherClasses }: Props) => {
+const LocalSearch = ({ route, ImgSrc, placeholder, otherClasses,iconPosition="left" }: Props) => {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   const [searchQuery, setSearchQuery] = useState(query);
@@ -46,6 +47,8 @@ const LocalSearch = ({ route, ImgSrc, placeholder, otherClasses }: Props) => {
     <div
       className={`background-light800_darkgradient flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
     >
+      {
+      iconPosition==="left" && 
       <Image
         src={ImgSrc}
         width={24}
@@ -53,6 +56,18 @@ const LocalSearch = ({ route, ImgSrc, placeholder, otherClasses }: Props) => {
         alt="search"
         className="cursor-pointer"
       />
+      }
+      {
+      iconPosition==="right" && 
+      <Image
+        src={ImgSrc}
+        width={15}
+        height={15}
+        alt="search"
+        className="cursor-pointer"
+      />
+      }
+      
       <Input
         type="text"
         placeholder={placeholder}
