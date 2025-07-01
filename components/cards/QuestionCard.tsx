@@ -38,6 +38,7 @@ const QuestionCard = ({
           alt={author.name}
           value={author.name}
           title={`• asked ${getTimeStamp(createdAt)} ago`}
+          titleStyles="max-sm:hidden"
           href={ROUTES.PROFILE(author._id)}
           textStyles="body-medium text-dark400_light700"
           isAuthor
