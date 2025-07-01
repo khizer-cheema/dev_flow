@@ -4,11 +4,14 @@ import { after } from 'next/server';
 
 import TagCard from '@/components/cards/TagCard';
 import Preview from '@/components/editor/Preview';
+import AnswerForm from '@/components/Forms/AnswerForm';
 import Metric from '@/components/Metric';
 import UserAvatar from '@/components/UserAvatar';
 import ROUTES from '@/constants/routes';
 import { GetQuestion, incrementViews } from '@/lib/actions/question.action';
 import { formatNumber, getTimeStamp } from '@/lib/utils';
+import { getAnswers } from '@/lib/actions/answer.action';
+
 
 
 const QuestionDetails = async ({params}:RouteParams) => {
@@ -20,6 +23,10 @@ const QuestionDetails = async ({params}:RouteParams) => {
     await incrementViews({questionId:id});
   })
   if(!success || !question) return redirect("/404");
+  const{success:areAnswersLoaded,data:answersResult,error:answersError} = await getAnswers({
+    questionId:id,page:1,pageSize:10,filter:"latest"
+  })
+  console.log("ANSWERS:",answersResult);
   const{author,createdAt,answers,views,tags,title,content} = question;
   return (
     <>
@@ -87,6 +94,11 @@ const QuestionDetails = async ({params}:RouteParams) => {
         ))
       }
     </div>
+    <section className='my-5'>
+      <AnswerForm
+        questionId={question._id}
+      />
+    </section>
     </>
   )
 }
