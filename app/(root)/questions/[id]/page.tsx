@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { after } from 'next/server';
 
 import TagCard from '@/components/cards/TagCard';
-import Preview from '@/components/editor/Preview';
+import {Preview} from '@/components/editor/Preview';
 import AnswerForm from '@/components/Forms/AnswerForm';
 import Metric from '@/components/Metric';
 import UserAvatar from '@/components/UserAvatar';
@@ -11,6 +11,7 @@ import ROUTES from '@/constants/routes';
 import { GetQuestion, incrementViews } from '@/lib/actions/question.action';
 import { formatNumber, getTimeStamp } from '@/lib/utils';
 import { getAnswers } from '@/lib/actions/answer.action';
+import AllAnswers from '@/components/answers/AllAnswers';
 
 
 
@@ -94,6 +95,14 @@ const QuestionDetails = async ({params}:RouteParams) => {
         ))
       }
     </div>
+    <section className='my-5'>
+      <AllAnswers
+        data={answersResult?.answers}
+        success={areAnswersLoaded}
+        error={answersError}
+        totalAnswers={answersResult?.totalAnswers || 0}
+      />
+    </section>
     <section className='my-5'>
       <AnswerForm
         questionId={question._id}

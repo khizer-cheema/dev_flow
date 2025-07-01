@@ -10,7 +10,7 @@ interface Props {
   name: string;
   imageUrl?: string | null;
   className?: string;
-  fallbackClassname:string
+  fallbackClassname?:string
 }
 
 const UserAvatar = ({ 

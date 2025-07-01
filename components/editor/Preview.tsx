@@ -6,8 +6,8 @@ Code.theme = {
   dark:"github-dark",
   lightSelector:"html.light"
 }
-const Preview = ({content=""}:{content:string}) => {
-  const formattedContent = content.replace(/\\/g,"").replace(/&#x20;/g,"");
+export const Preview = ({content}:{content:string}) => {
+  const formattedContent = content.replace(/\\/g, "").replace(/&#x20;/g, "");
   return (
     <section className="markdown prose grid break-words">
       <MDXRemote
@@ -25,5 +25,3 @@ const Preview = ({content=""}:{content:string}) => {
     </section>
   )
 }
-
-export default Preview
