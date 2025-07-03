@@ -12,6 +12,7 @@ import { GetQuestion, incrementViews } from '@/lib/actions/question.action';
 import { formatNumber, getTimeStamp } from '@/lib/utils';
 import { getAnswers } from '@/lib/actions/answer.action';
 import AllAnswers from '@/components/answers/AllAnswers';
+import Votes from '@/components/votes/Votes';
 
 
 
@@ -50,7 +51,12 @@ const QuestionDetails = async ({params}:RouteParams) => {
         </div>
 
         <div className='flex justify-end'>
-          <p> Votes</p>
+          <Votes
+            upvotes={question.upvotes}
+            downvotes={question.downvotes}
+            hasUpvoted={true}
+            hasDownvoted={false}
+          />
         </div>
       </div>
       <h2 className='h2-semibold text-dark200_light900 mt-3 w-full'>{title}</h2>
