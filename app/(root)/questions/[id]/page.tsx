@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { after } from 'next/server';
+import { Suspense } from 'react';
 
 import AllAnswers from '@/components/answers/AllAnswers';
 import TagCard from '@/components/cards/TagCard';
@@ -12,8 +13,8 @@ import Votes from '@/components/votes/Votes';
 import ROUTES from '@/constants/routes';
 import { getAnswers } from '@/lib/actions/answer.action';
 import { GetQuestion, incrementViews } from '@/lib/actions/question.action';
+import { hasVoted } from '@/lib/actions/vote.action';
 import { formatNumber, getTimeStamp } from '@/lib/utils';
-
 
 const QuestionDetails = async ({params}:RouteParams) => {
   const {id} = await params;
@@ -27,8 +28,14 @@ const QuestionDetails = async ({params}:RouteParams) => {
   const{success:areAnswersLoaded,data:answersResult,error:answersError} = await getAnswers({
     questionId:id,page:1,pageSize:10,filter:"latest"
   })
-  console.log("ANSWERS:",answersResult);
+  
+  const hasVotedPromise = hasVoted({
+    targetId: question._id,
+    targetType: "question"
+  });
+
   const{author,createdAt,answers,views,tags,title,content} = question;
+
   return (
     <>
     <div className='flex flex-start flex-col w-full'>
@@ -50,12 +57,17 @@ const QuestionDetails = async ({params}:RouteParams) => {
         </div>
 
         <div className='flex justify-end'>
+          <Suspense fallback={
+            <div>Loading...</div>
+          }>
           <Votes
+            targetType='question'
             upvotes={question.upvotes}
             downvotes={question.downvotes}
-            hasUpvoted={true}
-            hasDownvoted={false}
-          />
+            targetId={question._id}
+            hasVotedPromise={hasVotedPromise}
+             />
+          </Suspense>
         </div>
       </div>
       <h2 className='h2-semibold text-dark200_light900 mt-3 w-full'>{title}</h2>

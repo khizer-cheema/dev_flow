@@ -1,13 +1,13 @@
 "use server";
 import mongoose, { ClientSession } from "mongoose";
+import { revalidatePath } from "next/cache";
 
+import ROUTES from "@/constants/routes";
 import { Answer, Question, Vote } from "@/database";
 
 import action from "../handlers/action";
 import handleError from "../handlers/error";
 import { createVoteSchema, hasVotedSchema, updateVoteCountSchema } from "../validations";
-
-
 
 export async function updateVoteCount(
   params:updateVoteCountParams,
@@ -59,6 +59,9 @@ export async function createVote(params:createVoteParams):Promise<ActionResponse
   
     const {targetId,targetType,voteType} = validationResult.params!;
     const userId =  validationResult.session?.user?.id;
+    if(!userId){
+      return handleError(new Error("Unauthorized")) as ErrorResponse;
+    }
 
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -71,13 +74,14 @@ export async function createVote(params:createVoteParams):Promise<ActionResponse
      
     if(existingVote){
       if(existingVote.voteType === voteType){
-        // If the user is trying to vote the same type again, remove the vote
+        // If the user has already voted with the same voteType,remove the vote.
+
         await Vote.deleteOne({ _id: existingVote._id }).session(session);
         await updateVoteCount({
           targetId,targetType,voteType,change:-1
-        });
+        },session);
       }else{
-        // if the user has already voted with a different vote type,update the vote.
+        // if the user has already voted with a different voteType,update the vote.
 
         await Vote.findByIdAndUpdate(
           existingVote._id,
@@ -85,16 +89,19 @@ export async function createVote(params:createVoteParams):Promise<ActionResponse
           {new:true,session}
         );
         await updateVoteCount({
+          targetId,voteType:existingVote.voteType,targetType,change:-1
+        },session)
+        await updateVoteCount({
           targetId,voteType,targetType,change:1
         },session)
       }
     }else{
       // if the user has not voted yet,create a new vote.
       await Vote.create([{
-        targetId,
-        targetType,
+        author:userId,
+        actionId:targetId,
+        actionType:targetType,
         voteType,
-        change:1
       }],
       {session}
     );
@@ -104,9 +111,12 @@ export async function createVote(params:createVoteParams):Promise<ActionResponse
     };
     await session.commitTransaction();
     session.endSession();
+
+     revalidatePath(ROUTES.QUESTION(targetId));
       return {
         success:true,
       };
+     
 
   } catch (error) {
     await session.abortTransaction();
