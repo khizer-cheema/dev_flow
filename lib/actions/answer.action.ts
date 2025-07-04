@@ -43,7 +43,7 @@ export async function CreateAnswer(params:CreateAnswerParams):Promise<ActionResp
     await question.save({session});
     
     await session.commitTransaction();
-
+    session.endSession();
     revalidatePath(ROUTES.QUESTION(questionId));
       
       return {
@@ -52,7 +52,7 @@ export async function CreateAnswer(params:CreateAnswerParams):Promise<ActionResp
       };
 
   } catch (error) {
-    session.abortTransaction();
+    await session.abortTransaction();
     return handleError(error) as ErrorResponse;
   }finally{
     session.endSession();

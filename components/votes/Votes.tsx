@@ -1,9 +1,11 @@
 "use client";
-import { formatNumber } from '@/lib/utils';
-import { useSession } from 'next-auth/react';
+
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 import React, { useState } from 'react'
 import { toast } from 'sonner';
+
+import { formatNumber } from '@/lib/utils';
 interface Props {
   upvotes: number
   downvotes: number

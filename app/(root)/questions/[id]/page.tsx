@@ -2,18 +2,17 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { after } from 'next/server';
 
+import AllAnswers from '@/components/answers/AllAnswers';
 import TagCard from '@/components/cards/TagCard';
 import {Preview} from '@/components/editor/Preview';
 import AnswerForm from '@/components/Forms/AnswerForm';
 import Metric from '@/components/Metric';
 import UserAvatar from '@/components/UserAvatar';
+import Votes from '@/components/votes/Votes';
 import ROUTES from '@/constants/routes';
+import { getAnswers } from '@/lib/actions/answer.action';
 import { GetQuestion, incrementViews } from '@/lib/actions/question.action';
 import { formatNumber, getTimeStamp } from '@/lib/utils';
-import { getAnswers } from '@/lib/actions/answer.action';
-import AllAnswers from '@/components/answers/AllAnswers';
-import Votes from '@/components/votes/Votes';
-
 
 
 const QuestionDetails = async ({params}:RouteParams) => {
