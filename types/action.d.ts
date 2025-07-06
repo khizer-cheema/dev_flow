@@ -57,3 +57,7 @@ interface HasVotedResponse {
   hasUpvoted: boolean;
   hasDownvoted: boolean;
 }
+
+interface collectionBaseParams {
+  questionId: string;
+}
