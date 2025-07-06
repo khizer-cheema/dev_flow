@@ -24,9 +24,9 @@ const AnswerCard = ({_id,author,content,createdAt,upvotes,downvotes}:Answer) => 
           <UserAvatar
             id={author._id}
             name={author.name}
-            imageUrl="umt-log.jpg"
+            imageUrl={author.image}
             className='size-5 rounded-full object-contain max-sm:mt-2'
-            fallbackClassname='rounded-full w-11 h-11 max-sm:mt-2'
+            fallbackClassName='rounded-full w-11 h-11 max-sm:mt-2'
           />
           <Link
             href={ROUTES.PROFILE(author._id)}
