@@ -42,7 +42,7 @@ interface User {
 interface Collection {
   _id:string;
   author: string | Author;
-  question:string |Question;
+  question:Question;
 }
 
 type ActionResponse<T = null> = {
