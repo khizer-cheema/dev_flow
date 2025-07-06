@@ -33,6 +33,10 @@ export const EMPTY_TAGS = {
     href:ROUTES.TAGS,
   }
 }
+export const EMPTY_USERS = {
+  title:"No Users",
+  message:"You are alone only one. More users are coming soon.",
+  }
 export const EMPTY_ANSWERS = {
   title:"No Answers Found",
   message:"The answer board is empty.Make it rain with your brilliant answer.",

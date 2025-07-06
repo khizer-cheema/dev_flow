@@ -28,7 +28,7 @@ const UserAvatar = ({
 
   return (
     <Link href={ROUTES.PROFILE(id)}>
-      <Avatar.Root>
+      <Avatar.Root className={cn("relative", className)}>
         {imageUrl? (
           <Avatar.Image>
           src={imageUrl}
@@ -36,7 +36,9 @@ const UserAvatar = ({
             width={36}
             height={36}
             quality={100}
-            className = {cn("object-cover",className)}
+            className = {"object-cover"}
+            fill
+            quality={100}
           </Avatar.Image>
         ):null}
       
