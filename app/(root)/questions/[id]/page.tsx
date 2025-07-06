@@ -8,13 +8,17 @@ import TagCard from '@/components/cards/TagCard';
 import {Preview} from '@/components/editor/Preview';
 import AnswerForm from '@/components/Forms/AnswerForm';
 import Metric from '@/components/Metric';
+import SaveQuestion from '@/components/questions/SaveQuestion';
 import UserAvatar from '@/components/UserAvatar';
 import Votes from '@/components/votes/Votes';
 import ROUTES from '@/constants/routes';
 import { getAnswers } from '@/lib/actions/answer.action';
+import { hasSavedQuestion } from '@/lib/actions/collection.action';
 import { GetQuestion, incrementViews } from '@/lib/actions/question.action';
 import { hasVoted } from '@/lib/actions/vote.action';
 import { formatNumber, getTimeStamp } from '@/lib/utils';
+
+
 
 const QuestionDetails = async ({params}:RouteParams) => {
   const {id} = await params;
@@ -34,6 +38,10 @@ const QuestionDetails = async ({params}:RouteParams) => {
     targetType: "question"
   });
 
+  const hasSavedQuestionPromise = hasSavedQuestion({
+    questionId: question._id,
+  });
+
   const{author,createdAt,answers,views,tags,title,content} = question;
 
   return (
@@ -45,7 +53,7 @@ const QuestionDetails = async ({params}:RouteParams) => {
             id={author._id}
             name={author.name}
             className='size-[22px]'
-            fallbackClassname="text-[10px]"
+            fallbackClassName="text-[10px]"
           />
           <Link
             href={ROUTES.PROFILE(author._id)}
@@ -56,7 +64,7 @@ const QuestionDetails = async ({params}:RouteParams) => {
           </Link>
         </div>
 
-        <div className='flex justify-end'>
+        <div className='flex justify-end gap-3'>
           <Suspense fallback={
             <div>Loading...</div>
           }>
@@ -66,6 +74,15 @@ const QuestionDetails = async ({params}:RouteParams) => {
             downvotes={question.downvotes}
             targetId={question._id}
             hasVotedPromise={hasVotedPromise}
+             />
+          </Suspense>
+          
+          <Suspense fallback={
+            <div>Loading...</div>
+          }>
+          <SaveQuestion
+            questionId={question._id}
+            hasSavedQuestionPromise={hasSavedQuestionPromise}
              />
           </Suspense>
         </div>

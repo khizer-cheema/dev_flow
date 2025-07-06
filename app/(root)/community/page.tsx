@@ -8,12 +8,8 @@ import { getUsers } from "@/lib/actions/user.action";
 
 const Community = async({searchParams}:RouteParams) => {
 
-<<<<<<< HEAD
   const {page,pageSize,filter,query} = await searchParams;
-=======
-  const {page=1,pageSize=10,filter,query} = await searchParams;
->>>>>>> 1b3cefc746cb434c2343e5c20eb7a2743130b822
-
+  
   const {data,success,error} = await getUsers({
     page: Number(page) || 1,
     pageSize: Number(pageSize) || 10,

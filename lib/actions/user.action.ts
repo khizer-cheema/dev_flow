@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 "use server";
-=======
->>>>>>> 1b3cefc746cb434c2343e5c20eb7a2743130b822
 import { FilterQuery } from "mongoose";
 
 import { User } from "@/database";
@@ -25,11 +22,7 @@ export async function getUsers(params:paginatedSearchParams):Promise<ActionRespo
   const limit = Number(pageSize);
   
   const filterQuery:FilterQuery<typeof User> = {};
-<<<<<<< HEAD
     
-=======
-    let sortCriteria = {};
->>>>>>> 1b3cefc746cb434c2343e5c20eb7a2743130b822
   
   if(query){
     filterQuery.$or = [
@@ -37,12 +30,8 @@ export async function getUsers(params:paginatedSearchParams):Promise<ActionRespo
       { email: { $regex: query, $options: "i" } },
     ];
   }
-<<<<<<< HEAD
   let sortCriteria = {};
   
-=======
-  if(filter){
->>>>>>> 1b3cefc746cb434c2343e5c20eb7a2743130b822
     switch(filter){
       case "newest":
         sortCriteria = { createdAt: -1 };
@@ -57,24 +46,16 @@ export async function getUsers(params:paginatedSearchParams):Promise<ActionRespo
         sortCriteria = { createdAt: -1 };
         break;
     }
-<<<<<<< HEAD
   
-=======
-  }
->>>>>>> 1b3cefc746cb434c2343e5c20eb7a2743130b822
   try {
     const totalUsers = await User.countDocuments(filterQuery);
     const users = await User.find(filterQuery).sort(sortCriteria).skip(skip).limit(limit);
     const isNext = totalUsers > skip + users.length;
     return {
       success: true,
-<<<<<<< HEAD
       data: {users:JSON.parse(JSON.stringify(users))
         ,isNext 
       }
-=======
-      data: {users:JSON.parse(JSON.stringify(users)),isNext }
->>>>>>> 1b3cefc746cb434c2343e5c20eb7a2743130b822
     };
   } catch (error) {
     return handleError(error) as ErrorResponse;

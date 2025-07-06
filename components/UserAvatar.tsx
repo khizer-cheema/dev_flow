@@ -31,22 +31,14 @@ const UserAvatar = ({
 
   return (
     <Link href={ROUTES.PROFILE(id)}>
-<<<<<<< HEAD
       <Avatar className={cn("relative", className)}>
         {imageUrl ? (
           <Image
             src={imageUrl}
-=======
-      <Avatar.Root className={cn("relative", className)}>
-        {imageUrl? (
-          <Avatar.Image>
-          src={imageUrl}
->>>>>>> 1b3cefc746cb434c2343e5c20eb7a2743130b822
             alt={name}
             className="object-cover"
             fill
             quality={100}
-<<<<<<< HEAD
           />
         ) : (
           <AvatarFallback
@@ -55,17 +47,6 @@ const UserAvatar = ({
               fallbackClassName
             )}
           >
-=======
-            className = {"object-cover"}
-            fill
-            quality={100}
-          </Avatar.Image>
-        ):null}
-      
-          <Avatar.Fallback className={cn(
-            "primary-gradient font-space-grotesk font-bold tracking-wide text-white",fallbackClassname
-          )}>
->>>>>>> 1b3cefc746cb434c2343e5c20eb7a2743130b822
             {initials}
           </AvatarFallback>
         )}
