@@ -11,10 +11,17 @@ const UserCard = ({_id,name,image,username}:User) => {
       <article className='background-light900_dark200 border light-border p-8 flex flex-col items-center justify-center rounded-2xl'>
         <UserAvatar
           id={_id}
+<<<<<<< HEAD
           name={name}
           imageUrl={image}
           className='size-[100px] rounded-full object-cover'
           fallbackClassName='text-5xl tracking-widest rounded-full'
+=======
+          name='name'
+          imageUrl={image}
+          className='size-[100px] rounded-full object-cover'
+          fallbackClassname='text-5xl tracking-widest rounded-full'
+>>>>>>> 1b3cefc746cb434c2343e5c20eb7a2743130b822
         />
         <Link
           href={ROUTES.PROFILE(_id)}
