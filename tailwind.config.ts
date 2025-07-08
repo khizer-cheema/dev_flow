@@ -1,4 +1,7 @@
+import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
+
 
 const config: Config = {
   darkMode: ["class"],
@@ -29,6 +32,9 @@ const config: Config = {
           "850": "#FDFDFD",
           "900": "#FFFFFF",
         },
+        link:{
+          "100":"#1DA1F2"
+        }
       },
       boxShadow: {
         "light-100":
@@ -58,6 +64,5 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
-};
+plugins: [tailwindcssAnimate, typography],};
 export default config;
