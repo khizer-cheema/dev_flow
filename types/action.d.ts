@@ -61,3 +61,7 @@ interface HasVotedResponse {
 interface collectionBaseParams {
   questionId: string;
 }
+
+interface GetUserParams{
+  userId:string;
+}
