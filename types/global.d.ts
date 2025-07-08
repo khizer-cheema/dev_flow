@@ -76,3 +76,9 @@ interface paginatedSearchParams{
   filter?: string,
   sort?: string
 }
+
+interface BadgeCounts {
+  GOLD:number;
+  SILVER:number;
+  BRONZE:number
+}

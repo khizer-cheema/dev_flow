@@ -5,9 +5,10 @@ import { notFound } from "next/navigation";
 
 import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
-import ProfileLink from "@/components/user/ProfileLink";
 import UserAvatar from "@/components/UserAvatar";
+import ProfileLink from "@/components/user/ProfileLink";
 import { getUser } from "@/lib/actions/user.action";
+import Stats from "@/components/user/Stats";
 
 
 const Profile = async({params,searchParams}:RouteParams) => {
@@ -37,6 +38,7 @@ const Profile = async({params,searchParams}:RouteParams) => {
   } = user;
 
   return (
+    <>
     <section className="flex flex-col-reverse irems-start justify-between sm:flex-row">
       <div className="flex flex-col items-start gap-4 lg:flex-row">
         <UserAvatar
@@ -88,6 +90,16 @@ const Profile = async({params,searchParams}:RouteParams) => {
           }
         </div>
     </section>
+    <Stats
+      totalQuestions={totalQuestions}
+      totalAnswers ={totalAnswers}
+      badges={{
+        GOLD:0,
+        SILVER:0,
+        BRONZE:0
+      }}
+    />
+    </>
   )
   
 };
