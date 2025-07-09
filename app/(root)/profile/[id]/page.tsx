@@ -41,7 +41,7 @@ const Profile = async({params,searchParams}:RouteParams) => {
     pageSize:Number(pageSize) || 10
   });
 
-  const{success:userTopTagsSucess,error:userTopTagsError,data:userTopTags} = await getUserTopTags({userId:id})
+  const{success:userTopTagsSuccess,error:userTopTagsError,data:userTopTags} = await getUserTopTags({userId:id})
 
   if(!success) return (<div>
     <div className="h1-bold text-dark100_light900">{error?.message}</div>
@@ -126,96 +126,99 @@ const Profile = async({params,searchParams}:RouteParams) => {
         BRONZE:0
       }}
     />
-    <section className="mt-10 flex gap-10">
-      <Tabs defaultValue="top-posts" className="flex-[2]">
-  <TabsList className="background-light800_dark400 min-h-[42px] p-1">
-    <TabsTrigger value="top-posts" className="tab">Top Posts</TabsTrigger>
-    <TabsTrigger value="answers" className="tab">Answers</TabsTrigger>
-  </TabsList>
-  <TabsContent value="top-posts" className="mt-5 flex w-full flex-col gap-6">
-    <DataRenderer
-      data={questions}
-      success={userQuestionsSuccess}
-      error={userQuestionsError}
-      empty={EMPTY_QUESTION}
-      render={(questions)=> (
-        <div className="flex flex-col gap-6 w-full">
-          {
-            questions.map((question)=>(
-              <QuestionCard
-                key={question._id}
-                question={question}
-              />
-            ))}
-        </div>
-  )}
-    />
-    <Pagination
-      page={page}
-      isNext={hasMoreQuestions}
-    />
-  </TabsContent>
-  <TabsContent value="answers" className="flex w-full flex-col gap-6">
-     <DataRenderer
-        data={answers}
-        empty={EMPTY_ANSWERS}
-        success={userAnswersSuccess}
-        error={userAnswersError}
-        render={(answers) => (
-          <div className="flex w-full flex-col gap-6">
-            {answers.map((answer) => (
-              <AnswerCard
-                  key={answer._id}
-                  {...answer}
-                  content={answer.content.slice(0, 27)}
-                  containerClasses="card-wrapper rounded-[10px] px-7 py-9 sm:px-11"
-                  showReadMore
-                  />
+     <section className="mt-10 flex gap-10">
+        <Tabs defaultValue="top-posts" className="flex-[2]">
+          <TabsList className="background-light800_dark400 min-h-[42px] p-1">
+            <TabsTrigger value="top-posts" className="tab">
+              Top Posts
+            </TabsTrigger>
+            <TabsTrigger value="answers" className="tab">
+              Answers
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent
+            value="top-posts"
+            className="mt-5 flex w-full flex-col gap-6"
+          >
+            <DataRenderer
+              data={questions}
+              empty={EMPTY_QUESTION}
+              success={userQuestionsSuccess}
+              error={userQuestionsError}
+              render={(questions) => (
+                <div className="flex w-full flex-col gap-6">
+                  {questions.map((question) => (
+                    <QuestionCard
+                      key={question._id}
+                      question={question}
+                      showActionBtns={
+                        loggedInUser?.user?.id === question.author._id
+                      }
+                    />
                   ))}
                 </div>
               )}
             />
 
-          <Pagination 
-          page={page} 
-          isNext={hasMoreAnswers || false}
-          />
-  </TabsContent>
-</Tabs>
+            <Pagination page={page} isNext={hasMoreQuestions} />
+          </TabsContent>
 
-<div className="flex w-full min-h-[250px] flex-1 flex-col max-lg:hidden">
-  <h3 className="h3-bold text-dark200_light900">
-      Top Tech
-  </h3>
-  <div className="mt-7 flex flex-col gap-4">
-      <p>
-        <DataRenderer
-      data={tags}
-      success={userTopTagsSucess}
-      error={userTopTagsError}
-      empty={EMPTY_TAGS}
-      render={(tags)=> (
-        <div className=" mt-3 flex flex-col gap-6 w-full">
-          {
-            tags.map((tag)=>(
-              <TagCard
-                key={tag._id}
-                _id={tag._id}
-                name={tag.name}
-                questions={tag.count}
-                showCount
-                compact
-              />
-            ))}
+          <TabsContent value="answers" className="flex w-full flex-col gap-6">
+            <DataRenderer
+              data={answers}
+              empty={EMPTY_ANSWERS}
+              success={userAnswersSuccess}
+              error={userAnswersError}
+              render={(answers) => (
+                <div className="flex w-full flex-col gap-10">
+                  {answers.map((answer) => (
+                    <AnswerCard
+                      key={answer._id}
+                      {...answer}
+                      content={answer.content.slice(0, 27)}
+                      containerClasses="card-wrapper rounded-[10px] px-7 py-9 sm:px-11"
+                      showReadMore
+                      showActionBtns={
+                        loggedInUser?.user?.id === answer.author._id
+                      }
+                    />
+                  ))}
+                </div>
+              )}
+            />
+
+            <Pagination page={page} isNext={hasMoreAnswers || false} />
+          </TabsContent>
+        </Tabs>
+
+        <div className="flex w-full min-w-[250px] flex-1 flex-col max-lg:hidden">
+          <h3 className="h3-bold text-dark200_light900">Top Tech</h3>
+          <div className="mt-7 flex flex-col gap-4">
+            <DataRenderer
+              data={tags}
+              empty={EMPTY_TAGS}
+              success={userTopTagsSuccess}
+              error={userTopTagsError}
+              render={(tags) => (
+                <div className="mt-3 flex w-full flex-col gap-4">
+                  {tags.map((tag) => (
+                    <TagCard
+                      key={tag._id}
+                      _id={tag._id}
+                      name={tag.name}
+                      questions={tag.count}
+                      showCount
+                      compact
+                    />
+                  ))}
+                </div>
+              )}
+            />
+          </div>
         </div>
-  )}
-    />
-      </p>
-  </div>
-</div>
-    </section>
+      </section>
     </>
   );
-  };
+};
 
 export default Profile;

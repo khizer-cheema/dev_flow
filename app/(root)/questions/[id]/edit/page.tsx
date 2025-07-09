@@ -15,7 +15,7 @@ if(!id) return notFound();
 
   const {data:question,success} = await GetQuestion({questionId:id});
   if(!success) return notFound();
-  if(question?.author.toString() !== session?.user?.id)
+  if(question?.author._id.toString() !== session?.user?.id)
     redirect(ROUTES.QUESTION(id));
   return (
     <main>
