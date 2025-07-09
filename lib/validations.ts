@@ -74,6 +74,13 @@ export const EditQuestionSchema = AskQuestionSchema.extend({
 export const GetQuestionSchema = z.object({
   questionId:z.string().min(1,{message:"Question ID is required"})
 })
+export const paginatedSearchParamsSchema =z.object({
+  page: z.number().int().positive().default(1),
+  pageSize: z.number().int().positive().default(10),
+  query:z.string().optional(),
+  filter:z.string().optional(),
+  sort:z.string().optional()
+})
 
 export const UserSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -94,7 +101,10 @@ export const GetUserSchema = z.object({
   userId:z.string().min(1,{message:"user ID is required."})
 }) 
 
-export const GetUserQuestionsSchema = z.object({
+export const GetUserQuestionsSchema = paginatedSearchParamsSchema.extend({
+  userId:z.string().min(1,{message:"Question ID is required"})
+})
+export const GetUserAnswersSchema = paginatedSearchParamsSchema.extend({
   userId:z.string().min(1,{message:"Question ID is required"})
 })
 
@@ -140,14 +150,6 @@ export const SigninWithOAuthSchema = z.object(
     })
   }
 )
-
-export const paginatedSearchParamsSchema =z.object({
-  page: z.number().int().positive().default(1),
-  pageSize: z.number().int().positive().default(10),
-  query:z.string().optional(),
-  filter:z.string().optional(),
-  sort:z.string().optional()
-})
 
 export const getTagQuestionsSchema = paginatedSearchParamsSchema.extend({
   tagId:z.string().min(1,{message:"Tag ID is required"})
