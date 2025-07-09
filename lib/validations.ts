@@ -94,6 +94,10 @@ export const GetUserSchema = z.object({
   userId:z.string().min(1,{message:"user ID is required."})
 }) 
 
+export const GetUserQuestionsSchema = z.object({
+  userId:z.string().min(1,{message:"Question ID is required"})
+})
+
 export const AccountSchema = z.object({
   userId: z.string().min(1, { message: "User ID is required" }),
   name: z.string().min(1, { message: "Name is required" }),
