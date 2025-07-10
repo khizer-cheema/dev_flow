@@ -63,9 +63,8 @@ export async function getUsers(params:paginatedSearchParams):Promise<ActionRespo
   }
 }
 
-export async function getUser(params:GetUserParams):Promise<ActionResponse<{user:User;
-  totalQuestions:number;
-  totalAnswers:number}>>{ 
+export async function getUser(params:GetUserParams):Promise<ActionResponse<{user:User;totalQuestions:number;
+totalAnswers:number}>> { 
 
   const validationResult = await action({
     params,
@@ -95,8 +94,7 @@ export async function getUser(params:GetUserParams):Promise<ActionResponse<{user
     return handleError(error) as ErrorResponse;
   }
 }
-export async function getUserQuestions(params:GetUserQuestionsParams):Promise<ActionResponse<{questions:Question[];
-  isNext:boolean}>>{ 
+export async function getUserQuestions(params:GetUserQuestionsParams):Promise<ActionResponse<{questions:Question[];isNext:boolean}>>{ 
 
   const validationResult = await action({
     params,
@@ -125,8 +123,7 @@ export async function getUserQuestions(params:GetUserQuestionsParams):Promise<Ac
     return handleError(error) as ErrorResponse;
   }
 }
-export async function getUserAnswers(params:GetUserAnswersParams):Promise<ActionResponse<{answers:Answer[];
-  isNext:boolean}>>{ 
+export async function getUserAnswers(params:GetUserAnswersParams):Promise<ActionResponse<{answers:Answer[];isNext:boolean}>>{ 
 
   const validationResult = await action({
     params,
@@ -150,8 +147,7 @@ export async function getUserAnswers(params:GetUserAnswersParams):Promise<Action
 
     return{
       success:true,
-      data:{
-        answers:JSON.parse(JSON.stringify(answers)),
+      data:{answers:JSON.parse(JSON.stringify(answers)),
         isNext
       }
     };

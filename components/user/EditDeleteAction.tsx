@@ -16,6 +16,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { DeleteAnswer } from "@/lib/actions/answer.action";
+import { DeleteQuestion } from "@/lib/actions/question.action";
 
 interface Props{
   type:string;
@@ -31,14 +33,14 @@ router.push(`/questions/${itemId}/edit`)
   const handleDelete = async()=>{
     if(type === "Question"){
       // API call to delete question
-
+      await DeleteQuestion({questionId:itemId})
       toast("Question Deleted",{
         description:"Your Question has been deleted successfully."
       })
     }
     if(type === "Answer"){
       // API call to delete answer
-      
+      await DeleteAnswer({answerId:itemId})
       toast("Answer Deleted",{
         description:"Your Answer has been deleted successfully."
       })

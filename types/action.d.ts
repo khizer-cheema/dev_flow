@@ -27,6 +27,10 @@ interface EditQuestionParams extends CreateQuestionParams {
 interface GetQuestionParams {
     questionId:string;
 }
+interface DeleteQuestionParams {
+  questionId:string;
+}
+
 interface getTagQuestionsParams extends Omit<paginatedSearchParams,"filter"> {
   tagId:string
 }
@@ -41,6 +45,10 @@ interface CreateAnswerParams{
 
 interface getAnswersParams extends paginatedSearchParams{
   questionId:string
+}
+
+interface DeleteAnswerParams {
+  answerId:string;
 }
 
 interface createVoteParams {

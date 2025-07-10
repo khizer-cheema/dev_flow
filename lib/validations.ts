@@ -74,6 +74,10 @@ export const EditQuestionSchema = AskQuestionSchema.extend({
 export const GetQuestionSchema = z.object({
   questionId:z.string().min(1,{message:"Question ID is required"})
 })
+export const DeleteQuestionSchema = z.object({
+  questionId:z.string().min(1,{message:"Question ID is required."})
+})
+
 export const paginatedSearchParamsSchema =z.object({
   page: z.number().int().positive().default(1),
   pageSize: z.number().int().positive().default(10),
@@ -173,6 +177,10 @@ export const AnswerServerSchema = AnswerSchema.extend({
 export const getAnswersSchema = paginatedSearchParamsSchema.extend({
   questionId:z.string().min(1,{message:"Question ID is required."})
 })
+
+export const DeleteAnswerSchema = z.object({
+  answerId:z.string().min(1,{message:"Answer Id is required."})
+}) 
 
 export const createVoteSchema = z.object({
   targetId: z.string().min(1, { message: "Target ID is required" }),
