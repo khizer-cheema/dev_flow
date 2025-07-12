@@ -7,7 +7,8 @@ import { formatNumber } from '@/lib/utils';
 interface Props{
   totalQuestions:number;
   totalAnswers:number;
-  badges:BadgeCounts
+  badges:Badges;
+  reputationPoints:number;
 }
 interface StatsCardProps{
   imgUrl:string;
@@ -31,10 +32,13 @@ const StatsCard = ({imgUrl,value,title}:StatsCardProps)=>(
 )
 
 
-const Stats = ({totalQuestions,totalAnswers,badges}:Props) => {
+const Stats = ({totalQuestions,totalAnswers,badges,reputationPoints}:Props) => {
   return (
     <div className='mt-3'>
-      <h4 className='h4-semibold text-dark200_light900'>Stats</h4>
+      <h4 className='h4-semibold text-dark200_light900'>
+        Stats {" "}
+        <span className='small-semibold primary-text-gradient'>{formatNumber(reputationPoints)}</span>
+        </h4>
     <div className='mt-5 grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-4'>
       <div className='light-border background-900_dark300 flex-wrap items-center justify-evenly gap-4 rounded-md p-6 shadow-light-300 dark:shadow-dark-200 border flex'>
       <div>

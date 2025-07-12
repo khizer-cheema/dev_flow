@@ -2,17 +2,22 @@
 
 import mongoose, { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 
 import ROUTES from "@/constants/routes";
 import { Answer, Collection, Vote } from "@/database";
 import Question, { IQuestionDoc } from "@/database/question.model";
 import TagQuestion from "@/database/tag-question.model";
 import Tag, { ITagDoc } from "@/database/tag.model";
+import { CreateQuestionParams, DeleteQuestionParams, EditQuestionParams, GetQuestionParams, IncrementViewsParams } from "@/types/action";
 
 import action from "../handlers/action";
 import handleError from "../handlers/error";
 import dbConnect from "../mongoose";
 import { AskQuestionSchema, DeleteQuestionSchema, EditQuestionSchema, GetQuestionSchema, IncementViewsSchema, paginatedSearchParamsSchema } from "../validations";
+import { CreateInteraction } from "./interaction.action";
+
+
 
 
 export async function CreateQuestion(params:CreateQuestionParams):Promise<ActionResponse<Question>> {
@@ -53,10 +58,21 @@ export async function CreateQuestion(params:CreateQuestionParams):Promise<Action
     });
     }
     await TagQuestion.insertMany(tagQustionDocuments,{session});
+
     await Question.findByIdAndUpdate(
       question._id,
       {$push:{tags:{$each:tagIds}}},
       {session});
+
+      // log the interaction
+    after(async()=> {
+      await CreateInteraction({
+        action:"post",
+        actionId:question._id.toString(),
+        actionTarget:"question",
+        authorId:userId as string
+      });
+    });  
 
       await session.commitTransaction();
       

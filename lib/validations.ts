@@ -1,3 +1,4 @@
+import { InteractionActionEnum } from "@/database/interaction.model";
 import { z } from "zod";
 
 export const SignInSchema = z.object({
@@ -198,4 +199,11 @@ export const hasVotedSchema = createVoteSchema.pick({
 
 export const collectionBaseSchema = z.object({
   questionId: z.string().min(1, { message: "Question ID is required" }),
+})
+
+export const CreateInteractionSchema = z.object({
+  action:z.enum(InteractionActionEnum),
+  actionTarget:z.enum(["question","answer"]),
+  actionId:z.string().min(1),
+  authorId:z.string().min(1)
 })

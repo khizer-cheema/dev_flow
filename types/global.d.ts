@@ -78,7 +78,7 @@ interface paginatedSearchParams{
   sort?: string
 }
 
-interface BadgeCounts {
+interface Badges {
   GOLD:number;
   SILVER:number;
   BRONZE:number

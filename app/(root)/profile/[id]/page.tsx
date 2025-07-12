@@ -15,7 +15,7 @@ import ProfileLink from "@/components/user/ProfileLink";
 import Stats from "@/components/user/Stats";
 import UserAvatar from "@/components/UserAvatar";
 import { EMPTY_ANSWERS, EMPTY_QUESTION, EMPTY_TAGS } from "@/constants/states";
-import { getUser, getUserAnswers,getUserQuestions, getUserTopTags } from "@/lib/actions/user.action";
+import { getUser, getUserAnswers,getUserQuestions, getUserStats, getUserTopTags } from "@/lib/actions/user.action";
 
 
 const Profile = async({params,searchParams}:RouteParams) => {
@@ -47,7 +47,13 @@ const Profile = async({params,searchParams}:RouteParams) => {
     <div className="h1-bold text-dark100_light900">{error?.message}</div>
   </div>)
 
-  const{user,totalQuestions,totalAnswers}=data!;
+  const{user}=data!;
+
+  const {data:userStats} = await getUserStats({
+    userId:id
+  })
+  const {totalQuestions,totalAnswers,badges} = userStats!;
+
   const{
     _id,
     name,
@@ -118,9 +124,10 @@ const Profile = async({params,searchParams}:RouteParams) => {
         </div>
     </section>
     <Stats
-      totalQuestions={totalQuestions}
-      totalAnswers ={totalAnswers}
-      badges={{
+    reputationPoints={user.reputation||0}
+      totalQuestions={totalQuestions || 0}
+      totalAnswers ={totalAnswers || 0}
+      badges={badges || {
         GOLD:0,
         SILVER:0,
         BRONZE:0

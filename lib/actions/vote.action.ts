@@ -1,13 +1,16 @@
 "use server";
 import mongoose, { ClientSession } from "mongoose";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 
-import ROUTES from "@/constants/routes";
 import { Answer, Question, Vote } from "@/database";
+import { createVoteParams, HasVotedParams, HasVotedResponse, updateVoteCountParams } from "@/types/action";
 
 import action from "../handlers/action";
 import handleError from "../handlers/error";
 import { createVoteSchema, hasVotedSchema, updateVoteCountSchema } from "../validations";
+import { CreateInteraction } from "./interaction.action";
+
 
 export async function updateVoteCount(
   params:updateVoteCountParams,
@@ -66,6 +69,13 @@ export async function createVote(params:createVoteParams):Promise<ActionResponse
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
+    const Model = targetType==="question" ?Question : Answer;
+    const contentDoc = await Model.findById(targetId).session(session);
+
+    if(!contentDoc) throw new Error("Content not found.");
+
+    const contentAuthorId = contentDoc.author.toString();
+
     const existingVote = await Vote.findOne({
       author:userId,
       actionId:targetId,
@@ -109,10 +119,21 @@ export async function createVote(params:createVoteParams):Promise<ActionResponse
         targetId,targetType,voteType,change:1
       },session)
     };
+
+    // log interaction
+    after(async()=>{
+      await CreateInteraction({
+        action:voteType,
+        actionId:targetId,
+        actionTarget:targetType,
+        authorId:contentAuthorId
+      })
+    })
+
     await session.commitTransaction();
     session.endSession();
 
-     revalidatePath(ROUTES.QUESTION(targetId));
+     revalidatePath(`/questions/${targetId}`);
       return {
         success:true,
       };

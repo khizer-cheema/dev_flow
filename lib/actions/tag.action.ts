@@ -2,11 +2,13 @@
 import { FilterQuery } from "mongoose";
 
 import { Question, Tag } from "@/database";
+import { getTagQuestionsParams } from "@/types/action";
 
 import action from "../handlers/action";
 import handleError from "../handlers/error";
 import dbConnect from "../mongoose";
 import { getTagQuestionsSchema, paginatedSearchParamsSchema } from "../validations";
+
 
 
 

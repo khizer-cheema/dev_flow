@@ -1,3 +1,8 @@
+
+import mongoose from "mongoose"
+
+import { IInteractionDoc } from "@/database/interaction.model"
+
 interface signinWithOAuthParams{
   provider:'github' | 'google',
   providerAccountId:string
@@ -84,4 +89,18 @@ paginatedSearchParams {
 }
 interface GetUserTagsParams{
   userId:string;
+}
+
+interface UpdateReputationParams {
+  interaction:IInteractionDoc;
+  session:mongoose.ClientSession;
+  performerId:string;
+  authorId:string
+}
+
+interface CreateInteractionParams {
+  action: "view" | "upvote" | "downvote" | "bookmark" | "post" | "edit" | "delete" | "search";
+  actionId:string;
+  authorId:string;
+  actionTarget: "question" | "answer"
 }
